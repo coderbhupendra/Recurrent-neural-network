@@ -61,15 +61,23 @@ class RNN(object):
 		
 	def recurrent_fn(self, u_t, h_tm1, W_hh, W_uh, W_hy, b_hh):
 		h_t = self.activ(T.dot(h_tm1, W_hh) + T.dot(u_t, W_uh) + b_hh)
-		"print(h_t.eval.shape)"
-		
+		rng = np.random.RandomState(1234)
+		print(h_t.eval
+			({
+			h_tm1:np.random.random((20,))
+			,W_hh:np.random.random((20,20))
+			,u_t:np.random.random((10,2))
+			, W_uh:np.random.random((2,20))
+			,b_hh:np.random.random((20,))
+			}))
 		return h_t
+
 	def get_param(self):
 		return self.param
 
 if __name__ == '__main__':
 	rnn = RNN(2, 20, 1)
-	lr = 0.03
+	lr = 0.1
 	e = 1
 	vals = []
 	for i in xrange(int(5e5)):
@@ -81,7 +89,7 @@ if __name__ == '__main__':
 		if i % 1000 == 0:
 			vals.append(e)
 	plt.plot(vals)
-	plt.savefig('error_1.png')
+	plt.savefig('error_2.png')
 li=rnn.get_param()
 
 W_uh=li[1]
