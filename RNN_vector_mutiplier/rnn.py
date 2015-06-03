@@ -61,6 +61,7 @@ class RNN(object):
 		
 	def recurrent_fn(self, u_t, h_tm1, W_hh, W_uh, W_hy, b_hh):
 		h_t = self.activ(T.dot(h_tm1, W_hh) + T.dot(u_t, W_uh) + b_hh)
+		"print(h_t.eval.shape)"
 		
 		return h_t
 	def get_param(self):
