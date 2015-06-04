@@ -43,8 +43,12 @@ class RNN(object):
 					   non_sequences = [W_hh, W_uh, W_hy, b_hh])
  
 		y = T.dot(h[-1], W_hy) + b_hy
+		#y=y/y.sum()
+		#t=t/t.sum()
+		#cost =(t * T.log(y) + (1 - t) * T.log(1 - y)).mean().sum()
 		cost = ((t - y)**2).mean(axis=0).sum()
- 		gW_hh, gW_uh, gW_hy,\
+
+		gW_hh, gW_uh, gW_hy,\
 		   gb_hh, gb_hy = T.grad(
 			   cost, [W_hh, W_uh, W_hy, b_hh, b_hy])
  
@@ -67,23 +71,25 @@ class RNN(object):
 
 if __name__ == '__main__':
 	rnn = RNN(6, 20, 9)
-	lr = 0.1
+	lr = .01
+	
 	e = 1
 	vals = []
-	for i in xrange(int(5e5)):
+	for i in xrange(int(4e5)):
 		u=np.random.rand(3,3)
 		v=np.random.rand(3,3)
 		w=np.concatenate((u,v),axis=1)
 
 		t = (np.dot(u,v)).flatten()
-
+		 
 		c = rnn.train_step(w,t, lr)
+		
 		print "iteration {0}: {1}".format(i, np.sqrt(c))
 		e = 0.1*np.sqrt(c) + 0.9*e
 		if i % 1000 == 0:
 			vals.append(e)
 	plt.plot(vals)
-	plt.savefig('error_2.png')
+	plt.savefig('error_matrix_reversed.png')
 li=rnn.get_param()
 
 W_uh=li[1]

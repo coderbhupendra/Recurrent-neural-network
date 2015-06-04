@@ -67,12 +67,15 @@ if __name__ == '__main__':
 	for i in xrange(int(5)):
 		u=np.random.rand(3,3)
 		v=np.random.rand(3,3)
+		#u=np.array([[.1,.1,.1],[.2,.2,.2],[.3,.3,.3]])
+		#v=np.array([[.1,.1,.1],[.2,.2,.2],[.3,.3,.3]])
 		w=np.concatenate((u,v),axis=1)
 
 		t = (np.dot(u,v)).flatten()
 
 		c = rnn.train_step(w)
-		print "iteration {0} \n: {1} \n:{2}\n".format(i,t,c)
+		print "{0} \n: {1} ".format(t.reshape(3,3),c.reshape(3,3))
+		#print "{0}\n".format((t-c))
 		
 
 
